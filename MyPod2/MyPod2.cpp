@@ -81,7 +81,7 @@ void linkedList::showList()
 	node *ptr;
 	ptr = head;
 
-	cout << "MyPod Contents:\n" << endl;
+	cout << "\nMyPod Contents:\n" << endl;
 
 	if (ptr == NULL)
 	{
@@ -90,7 +90,7 @@ void linkedList::showList()
 	}
 	while (ptr != NULL) // to display all songs
 	{
-		printf("Artist:	%s		Song: %s\n", ptr->artistName, ptr->songName);
+		printf("Artist:	%s\tSong: %s\n", ptr->artistName, ptr->songName);
 		ptr = ptr->next;
 	}
 	cout << endl;
@@ -125,7 +125,8 @@ int linkedList::removeSong()
 	char songToDelete[30];
 	node *ptr = head;
 
-	cout << "Enter the song you would like to remove from your list (Case Sensitive)" << endl;
+	cout << "\nEnter the song you would like to remove from your list (Case Sensitive)" << endl;
+	cout << "*TIP* to remove empty entry -> hit 'enter" << endl;
 	cin.clear();
 	cin.ignore();
 	gets_s(songToDelete);
@@ -135,7 +136,7 @@ int linkedList::removeSong()
 		return -1;
 	}
 	//if node is at the head
-	if (strcmp(songToDelete, head->songName) == 0)
+	if (strcmp(songToDelete, ptr->songName) == 0)
 	{
 		//if only 1 node in the list
 		if (head == tail)
@@ -159,9 +160,9 @@ int linkedList::removeSong()
 			{
 				tail = ptr;
 			}
-			node *tbd = ptr->next;
+			node *aNode = ptr->next;
 			ptr->next = (ptr->next)->next;
-			delete ptr;
+			delete aNode;
 			return 0;
 		}
 		ptr = ptr->next;
@@ -169,17 +170,52 @@ int linkedList::removeSong()
 	return -1;
 }
 
-void linkedList::playCurrentSong() //Finish
+void linkedList::playCurrentSong() 
 {
 	char songToPlay[30];
 	node *ptr = head;
 
+	cout << "\nEnter the song you want to play (Case Sensitive)" << endl;
+	cin.clear();
+	cin.ignore();
+	gets_s(songToPlay);
+	
+	while (ptr != NULL)
+	{
+		if (strcmp(songToPlay, ptr->songName) == 0)
+		{
+			cout << "\nCurrently Playing:" << endl;
+			printf("Artist: %s\nSong: %s\n", ptr->artistName, ptr->songName);
+		}
+		ptr = ptr->next;
+	}
 }
 
-void linkedList::skipCurrentSong() //Finish
+void linkedList::skipCurrentSong() //Not 100% but will work for the 1st song on the list
 {
 	char songToSkip[30];
 	node *ptr = head;
+
+	cout << "\nEnter the song you want to skip (Use #1 on list for functionality)" << endl; 
+	cin.clear();
+	cin.ignore();
+	gets_s(songToSkip);
+
+	while (ptr != NULL)
+	{
+		if (strcmp(songToSkip, ptr->songName) == 0)
+		{
+			cout << "\nSkipping:" << ptr->songName << endl;
+			printf("Artist: %s\nSong: %s", ptr->artistName, ptr->songName);
+			ptr = ptr->next;
+			if (ptr->songName)
+			{
+				cout << "\n\nCurrently Playing:" << endl;
+				printf("Artist: %s\nSong: %s", ptr->artistName, ptr->songName);
+				break;
+			}
+		}
+	}
 }
 
 int main()
@@ -207,15 +243,18 @@ int main()
 
 		if ((answer == 'P') || (answer == 'p'))
 		{
-			//stuff
+			mylist->playCurrentSong();
 		}
 		else if ((answer == 'S') || (answer == 's'))
 		{
-			//stuff
+			mylist->skipCurrentSong();
 		}
 		else if ((answer == 'R') || (answer == 'r'))
 		{
-			//remove function
+			if (mylist->removeSong())
+			{
+				mylist->showList();
+			}
 		}
 		else if ((answer == 'E') || (answer == 'e'))
 		{
