@@ -7,7 +7,6 @@
 #include "stdafx.h" 
 #include <iostream>
 #include <fstream>
-#include "windows.h"
 #include <stdio.h>
 
 using namespace std;
@@ -41,7 +40,6 @@ class linkedList
 public:
 	linkedList();
 	void addNodeToEnd(node *nptr);
-	void setFileName(char f[]);
 	void showList();
 	int readList(char y[]);
 	int removeSong();
@@ -69,11 +67,6 @@ void linkedList::addNodeToEnd(node *ptr)
 		tail->next = ptr;
 		tail = ptr;
 	}
-}
-
-void linkedList::setFileName(char f[])
-{
-	strcpy_s(filename, f);
 }
 
 void linkedList::showList()
@@ -120,7 +113,7 @@ int linkedList::readList(char y[])
 	infile.close();
 }
 
-int linkedList::removeSong()
+int linkedList::removeSong() 
 {
 	char songToDelete[30];
 	node *ptr = head;
